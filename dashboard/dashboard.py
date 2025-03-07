@@ -38,7 +38,7 @@ try:
             weather_usage = df_filtered.groupby("weathersit")["cnt"].mean()
             
             fig, ax = plt.subplots(figsize=(8, 5))
-            sns.barplot(x=weather_usage.index, y=weather_usage.values, palette="coolwarm", ax=ax)
+            sns.barplot(x=weather_usage.index, y=weather_usage.values, palette="coolwarm", ax=ax, hue=weather_usage.index)
             ax.set_title("Rata-rata Peminjaman Berdasarkan Kondisi Cuaca")
             ax.set_xlabel("Kondisi Cuaca")
             ax.set_ylabel("Jumlah Peminjaman")
@@ -81,7 +81,7 @@ try:
             yearly_usage = df_filtered.groupby("yr")["cnt"].sum()
             
             fig, ax = plt.subplots(figsize=(6, 5))
-            sns.barplot(x=yearly_usage.index, y=yearly_usage.values, palette="Blues", ax=ax)
+            sns.barplot(x=yearly_usage.index, y=yearly_usage.values, palette="Blues", ax=ax,  hue=yearly_usage.index)
             ax.set_title("Total Peminjaman Sepeda per Tahun")
             ax.set_xlabel("Tahun")
             ax.set_ylabel("Total Peminjaman")
@@ -92,7 +92,7 @@ try:
 
     elif menu == "Lihat Notebook (.ipynb)":
         st.title("📘 Lihat Notebook Analisis Data")
-        file_path = "../notebook.ipynb" 
+        file_path = "notebook.ipynb" 
         
         try:
             with open(file_path, "r", encoding="utf-8") as f:
