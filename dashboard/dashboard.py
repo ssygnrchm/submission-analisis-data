@@ -10,7 +10,7 @@ import nbformat
 @st.cache_data
 def load_data():
     # Use relative path instead of absolute path
-    df = pd.read_csv("hour_df.csv")
+    df = pd.read_csv("dashboard/hour_df.csv")
     df["dteday"] = pd.to_datetime(df["dteday"])
     return df
 
