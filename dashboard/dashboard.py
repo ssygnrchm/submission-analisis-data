@@ -9,7 +9,7 @@ import nbformat
 # Memuat Dataset
 @st.cache_data
 def load_data():
-    df = pd.read_csv("hour_df.csv")
+    df = pd.read_csv("/hour_df.csv")
     df["dteday"] = pd.to_datetime(df["dteday"])
     return df
 
