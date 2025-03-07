@@ -1,1 +1,1 @@
-streamlit url
+https://data-analysis-sisy.streamlit.app/
