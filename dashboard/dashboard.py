@@ -9,7 +9,6 @@ import nbformat
 # Memuat Dataset
 @st.cache_data
 def load_data():
-    # Use relative path instead of absolute path
     df = pd.read_csv("dashboard/hour_df.csv")
     df["dteday"] = pd.to_datetime(df["dteday"])
     return df
@@ -38,7 +37,7 @@ try:
             weather_usage = df_filtered.groupby("weathersit")["cnt"].mean()
             
             fig, ax = plt.subplots(figsize=(8, 5))
-            sns.barplot(x=weather_usage.index, y=weather_usage.values, palette="coolwarm", ax=ax, hue=weather_usage.index)
+            sns.barplot(x=weather_usage.index, y=weather_usage.values,hue= weather_usage.values, palette='Reds', legend=False)
             ax.set_title("Rata-rata Peminjaman Berdasarkan Kondisi Cuaca")
             ax.set_xlabel("Kondisi Cuaca")
             ax.set_ylabel("Jumlah Peminjaman")
@@ -49,6 +48,21 @@ try:
 
         st.divider()
 
+        with st.container():
+            st.subheader("Pengaruh Temperatur terhadap Peminjaman Sepeda")
+
+            fig, ax = plt.subplots(figsize=(10, 6))
+            sns.scatterplot(x='temp', y='cnt', data=df_filtered, palette='viridis', hue='hum', ax=ax)
+            ax.set_title('Pengaruh Temperatur terhadap Peminjaman Sepeda')
+            ax.set_xlabel('Temperatur')
+            ax.set_ylabel('Jumlah Peminjaman Sepeda')
+            
+            st.pyplot(fig)
+            st.write("📌 **Insight:** Peminjaman sepeda cenderung meningkat seiring kenaikan temperatur, namun kelembapan juga memoderasi pengaruh ini.")
+            st.markdown("""</div>""", unsafe_allow_html=True)
+
+        st.divider()
+        
         # Perbandingan Hari Kerja, Akhir Pekan, dan Hari Libur
         with st.container():
             st.subheader("Perbandingan Peminjaman: Hari Kerja vs Akhir Pekan vs Hari Libur")
@@ -61,9 +75,9 @@ try:
             hourly_holiday = df_holiday.groupby("hr")["cnt"].mean()
             
             fig, ax = plt.subplots(figsize=(10, 5))
-            sns.lineplot(x=hourly_workingday.index, y=hourly_workingday.values, label="Hari Kerja", color="blue", marker="o", ax=ax)
-            sns.lineplot(x=hourly_weekend.index, y=hourly_weekend.values, label="Akhir Pekan", color="green", marker="o", ax=ax)
-            sns.lineplot(x=hourly_holiday.index, y=hourly_holiday.values, label="Hari Libur", color="red", marker="o", ax=ax)
+            sns.lineplot(x=hourly_workingday.index, y=hourly_workingday.values, marker='o', label='Hari Kerja', color='blue')
+            sns.lineplot(x=hourly_weekend.index, y=hourly_weekend.values, marker='o', label='Akhir Pekan', color='green')
+            sns.lineplot(x=hourly_holiday.index, y=hourly_holiday.values, marker='o', label='Hari Libur', color='grey')
             
             ax.set_title("Pola Peminjaman Sepeda Berdasarkan Waktu")
             ax.set_xlabel("Jam")
@@ -81,7 +95,7 @@ try:
             yearly_usage = df_filtered.groupby("yr")["cnt"].sum()
             
             fig, ax = plt.subplots(figsize=(6, 5))
-            sns.barplot(x=yearly_usage.index, y=yearly_usage.values, palette="Blues", ax=ax,  hue=yearly_usage.index)
+            sns.barplot(x=yearly_usage.index, y=yearly_usage.values, hue=yearly_usage.values, palette='Reds')
             ax.set_title("Total Peminjaman Sepeda per Tahun")
             ax.set_xlabel("Tahun")
             ax.set_ylabel("Total Peminjaman")
